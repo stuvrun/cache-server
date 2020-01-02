@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2020 Brayan Steven Rendón
  * @class
  */
-
 class App {
   constructor () {
     console.log('Starting...')
@@ -17,3 +16,5 @@ class App {
 
 const app = new App()
 app.run()
+
+module.exports = app
