@@ -1,4 +1,5 @@
 const ArgumentParser = require('./module/ArgumentParser')
+const Server = require('./module/Server')
 
 /**
  * Class for init app runner.
@@ -13,9 +14,7 @@ class App {
   }
 
   run () {
-    console.log('Starting...')
-    console.log(this.CONFIG.toString())
-    console.log('Started')
+    this.server = new Server(this.CONFIG)
   }
 }
 
