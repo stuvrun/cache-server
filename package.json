@@ -13,5 +13,8 @@
   "scripts": {
     "start": "node src/app.js",
     "test": "./node_modules/jest/bin/jest.js test/."
+  },
+  "dependencies": {
+    "commander": "4.1.0"
   }
 }
