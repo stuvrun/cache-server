@@ -1,3 +1,4 @@
+const packageOrigen = require('../../package.json')
 const Abstract = require('./Abstract')
 
 /**
@@ -16,6 +17,9 @@ class Config extends Abstract {
 
     /** @type {number} */
     this.port = 11211
+
+    /** @type {string} */
+    this.version = packageOrigen.version
   }
 }
 
