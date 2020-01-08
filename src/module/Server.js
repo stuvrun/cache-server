@@ -1,4 +1,5 @@
 const net = require('net')
+const { Error, Response } = require('./message')
 
 /**
  * Class for create a TCP server.
@@ -39,21 +40,31 @@ class Server {
       console.log('client disconnected')
     })
 
-    client.on('data', (dataOrigen) => {
-      const data = dataOrigen.toString()
+    client.on('data', (data) => {
+      const request = data.toString()
+      const command = request.split(' ')[0].replace('\r\n', '')
+      const response = new Response()
 
-      console.log(`** command:\r\n${data}**`)
+      console.log(`** command: ${command}\r\n${data}**`)
 
-      if (data.startsWith('set')) {
-        client.write('STORED\r\n')
+      switch (command) {
+        case 'get':
+          response.append('VALUE foo 0 3\r\n')
+          response.append('bar\r\n')
+          response.append('END\r\n')
+          break
+        case 'set':
+          response.append('STORED\r\n')
+          break
+        case 'quit':
+          client.end()
+          break
+        default:
+          client.write(Error.default())
       }
 
-      if (data.startsWith('get')) {
-        client.write('VALUE foo 0 3\r\nbar\r\nEND\r\n')
-      }
-
-      if (data.startsWith('quit')) {
-        client.end()
+      if (command !== 'quit') {
+        client.write(response.toString())
       }
     })
   }
