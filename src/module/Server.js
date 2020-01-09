@@ -1,4 +1,5 @@
 const net = require('net')
+const commandParser = require('./commandParser')
 const { Error, Response } = require('./message')
 
 /**
@@ -42,7 +43,7 @@ class Server {
 
     client.on('data', (data) => {
       const request = data.toString()
-      const command = request.split(' ')[0].replace('\r\n', '')
+      const command = commandParser(request)[0]
       const response = new Response()
 
       console.log(`** command: ${command}\r\n${data}**`)
