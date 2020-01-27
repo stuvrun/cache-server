@@ -5,7 +5,7 @@
  * @class
  */
 module.exports = {
-  Error: {
+  CustomError: {
     client: (message = '') => `CLIENT_ERROR ${message}\r\n`,
     default: () => 'ERROR\r\n',
     server: (message = '') => `SERVER_ERROR ${message}\r\n`

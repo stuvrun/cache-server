@@ -1,6 +1,7 @@
 const net = require('net')
+const checker = require('./checker')
+const command = require('./command')
 const commandParser = require('./commandParser')
-const { Error, Response } = require('./message')
 
 /**
  * Class for create a TCP server.
@@ -41,31 +42,30 @@ class Server {
       console.log('client disconnected')
     })
 
+    const forWait = { cmd: '', args: [] }
+
     client.on('data', (data) => {
       const request = data.toString()
-      const command = commandParser(request)[0]
-      const response = new Response()
+      const args = commandParser(request)
+      const cmd = forWait.cmd || args[0]
 
-      console.log(`** command: ${command}\r\n${data}**`)
+      console.log(`** command: ${cmd}\r\n${data}**`)
 
-      switch (command) {
-        case 'get':
-          response.append('VALUE foo 0 3\r\n')
-          response.append('bar\r\n')
-          response.append('END\r\n')
-          break
-        case 'set':
-          response.append('STORED\r\n')
-          break
-        case 'quit':
-          client.end()
-          break
-        default:
-          client.write(Error.default())
-      }
+      try {
+        if (command._forWait.includes(cmd) && forWait.cmd === '') {
+          checker.setterArgs(args)
 
-      if (command !== 'quit') {
-        client.write(response.toString())
+          forWait.cmd = cmd
+          forWait.args = args
+        } else {
+          command[cmd](client, [...forWait.args, ...args])
+
+          forWait.cmd = ''
+          forWait.args = []
+        }
+      } catch (err) {
+        command.write(client, err.message)
+        console.log('ERROR: ' + err.message)
       }
     })
   }

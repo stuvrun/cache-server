@@ -32,16 +32,16 @@ test('An answer message could be append with "foo & bar"', () => {
 })
 
 test('A client error message can be instanced', () => {
-  const instance = message.Error.client()
+  const instance = message.CustomError.client()
   expect(instance).toBeDefined()
 })
 
 test('A default error message can be instanced', () => {
-  const instance = message.Error.default()
+  const instance = message.CustomError.default()
   expect(instance).toBeDefined()
 })
 
 test('A server error message can be instanced', () => {
-  const instance = message.Error.server()
+  const instance = message.CustomError.server()
   expect(instance).toBeDefined()
 })
