@@ -1,6 +1,7 @@
 const net = require('net')
 const checker = require('./checker')
 const command = require('./command')
+const { CustomError } = require('./message')
 const commandParser = require('./commandParser')
 const expirationService = require('./expirationService')
 
@@ -59,6 +60,10 @@ class Server {
       console.log(`** command: ${cmd}\r\n${data}**`)
 
       try {
+        if (command._allCommands.includes(cmd) === false) {
+          throw Error(CustomError.default())
+        }
+
         if (command._forWait.includes(cmd) && forWait.cmd === '') {
           checker.args[cmd](args)
           checker.setterArgs(args)

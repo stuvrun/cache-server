@@ -2,6 +2,7 @@ const DataStorage = require('./DataStorage')
 const checker = require('./checker')
 const { Response } = require('./message')
 const Record = require('../model/Record')
+const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas']
 
 /**
  * Class singleton for commands.
@@ -11,7 +12,8 @@ const Record = require('../model/Record')
  */
 const command = {
   _counter: 1,
-  _forWait: ['set', 'add', 'replace', 'append', 'prepend', 'cas'],
+  _forWait,
+  _allCommands: ['get', 'gets', 'delete', ..._forWait],
   _storage: new DataStorage(),
   // get gets
   get: (client, args = [], withCAS = false) => {
