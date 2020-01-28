@@ -64,7 +64,9 @@ class Server {
           forWait.args = []
         }
       } catch (err) {
-        command.write(client, err.message)
+        const noreply = checker.toReply(args, 5) || checker.toReply(args, 6)
+
+        command.write(client, err.message, noreply)
         console.log('ERROR: ' + err.message)
       }
     })

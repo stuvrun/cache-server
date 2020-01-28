@@ -7,6 +7,7 @@ const { CustomError } = require('./message')
  * @class
  */
 const checker = {
+  toReply: (args, index) => args[index] === 'noreply',
   dataBinary: (record) => {
     const DATA_ARRAY = new TextEncoder().encode(record.data)
     if (DATA_ARRAY.length !== record.bytes) {

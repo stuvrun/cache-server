@@ -40,13 +40,40 @@ const command = {
   // set add replace append prepend cas
   set: (client, args = []) => {
     const key = args[1]
+    const noreply = checker.toReply(args, 5)
     const record = command.createRecord(args)
 
     command._storage.set(key, record)
 
     const response = new Response()
     response.append('STORED\r\n')
-    command.write(client, response)
+    command.write(client, response, noreply)
+  },
+  add: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 5)
+    const element = command._storage.get(key)
+
+    if (element) {
+      const response = new Response()
+      response.append('NOT_STORED\r\n')
+      command.write(client, response, noreply)
+    } else {
+      command.set(client, args)
+    }
+  },
+  replace: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 5)
+    const element = command._storage.get(key)
+
+    if (element) {
+      command.set(client, args)
+    } else {
+      const response = new Response()
+      response.append('NOT_STORED\r\n')
+      command.write(client, response, noreply)
+    }
   },
   // generic
   createRecord: (args, isCAS = false) => {
