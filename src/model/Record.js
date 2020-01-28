@@ -15,6 +15,9 @@ class Record extends Abstract {
     super()
 
     /** @type {number} */
+    this.id = undefined
+
+    /** @type {number} */
     this.flags = undefined
 
     /** @type {number} */
