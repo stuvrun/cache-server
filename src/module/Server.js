@@ -43,6 +43,10 @@ class Server {
     })
 
     const forWait = { cmd: '', args: [] }
+    const cleanForWait = () => {
+      forWait.cmd = ''
+      forWait.args = []
+    }
 
     client.on('data', (data) => {
       const request = data.toString()
@@ -60,14 +64,15 @@ class Server {
         } else {
           command[cmd](client, [...forWait.args, ...args])
 
-          forWait.cmd = ''
-          forWait.args = []
+          cleanForWait()
         }
       } catch (err) {
         const noreply = checker.toReply(args, 5) || checker.toReply(args, 6)
 
         command.write(client, err.message, noreply)
         console.log('ERROR: ' + err.message)
+
+        cleanForWait()
       }
     })
   }

@@ -75,6 +75,36 @@ const command = {
       command.write(client, response, noreply)
     }
   },
+  append: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 5)
+    const element = command._storage.get(key)
+
+    if (element) {
+      args[4] = element.bytes + command.createRecord(args).bytes
+      args[args.length - 1] = element.data + args[args.length - 1]
+      command.set(client, args)
+    } else {
+      const response = new Response()
+      response.append('NOT_STORED\r\n')
+      command.write(client, response, noreply)
+    }
+  },
+  prepend: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 5)
+    const element = command._storage.get(key)
+
+    if (element) {
+      args[4] = element.bytes + command.createRecord(args).bytes
+      args[args.length - 1] = args[args.length - 1] + element.data
+      command.set(client, args)
+    } else {
+      const response = new Response()
+      response.append('NOT_STORED\r\n')
+      command.write(client, response, noreply)
+    }
+  },
   // generic
   createRecord: (args, isCAS = false) => {
     const record = new Record()
@@ -84,7 +114,7 @@ const command = {
     record.casUnique = isCAS ? Number(args[5]) : undefined
     record.data = args[args.length - 1]
 
-    checker.dataBinary(record)
+    record.bytes = checker.dataBinary(record)
     command._counter++
 
     return record
