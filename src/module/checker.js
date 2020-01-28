@@ -33,8 +33,6 @@ const checker = {
       checker.args.get(args)
     },
     set: (args = [], min = 5, max = 7) => {
-      console.log(args.length)
-
       if (!(args.length >= min && args.length <= max)) {
         throw new Error(CustomError.default())
       }
