@@ -11,7 +11,7 @@ const Record = require('../model/Record')
  */
 const command = {
   _counter: 1,
-  _forWait: ['set', 'add', 'replace', 'append', 'prepend'],
+  _forWait: ['set', 'add', 'replace', 'append', 'prepend', 'cas'],
   _storage: new DataStorage(),
   // get gets
   get: (client, args = [], withCAS = false) => {
@@ -105,13 +105,32 @@ const command = {
       command.write(client, response, noreply)
     }
   },
+  cas: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 6)
+    const idCAS = Number(args[5])
+    const element = command._storage.get(key)
+
+    if (element) {
+      if (element.id === idCAS) {
+        command.set(client, args)
+      } else {
+        const response = new Response()
+        response.append('EXISTS\r\n')
+        command.write(client, response, noreply)
+      }
+    } else {
+      const response = new Response()
+      response.append('NOT_FOUND\r\n')
+      command.write(client, response, noreply)
+    }
+  },
   // generic
-  createRecord: (args, isCAS = false) => {
+  createRecord: (args) => {
     const record = new Record()
     record.id = command._counter
     record.flags = Number(args[2])
     record.bytes = Number(args[4])
-    record.casUnique = isCAS ? Number(args[5]) : undefined
     record.data = args[args.length - 1]
 
     record.bytes = checker.dataBinary(record)

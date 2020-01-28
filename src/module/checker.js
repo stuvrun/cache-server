@@ -22,6 +22,38 @@ const checker = {
     if (!Number.isInteger(Number(params))) {
       throw new Error(CustomError.client('bad command line format'))
     }
+  },
+  args: {
+    get: (args = []) => {
+      if (args.length !== 2) {
+        throw new Error(CustomError.default())
+      }
+    },
+    gets: (args = []) => {
+      checker.args.get(args)
+    },
+    set: (args = [], min = 5, max = 7) => {
+      console.log(args.length)
+
+      if (!(args.length >= min && args.length <= max)) {
+        throw new Error(CustomError.default())
+      }
+    },
+    add: (args) => {
+      checker.args.set(args)
+    },
+    replace: (args) => {
+      checker.args.set(args)
+    },
+    append: (args) => {
+      checker.args.set(args)
+    },
+    prepend: (args) => {
+      checker.args.set(args)
+    },
+    cas: (args) => {
+      checker.args.set(args, 6, 8)
+    }
   }
 }
 

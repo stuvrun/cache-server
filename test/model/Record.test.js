@@ -15,6 +15,11 @@ test('A record model can be parsed to string', () => {
   expect(instance.toString()).toBe('{}')
 })
 
+test('A record model has a default unique id', () => {
+  const instance = new Record()
+  expect(instance.id).toBeUndefined()
+})
+
 test('A record model has a default flags', () => {
   const instance = new Record()
   expect(instance.flags).toBeUndefined()
@@ -28,9 +33,4 @@ test('A record model has a default bytes', () => {
 test('A record model has a default data', () => {
   const instance = new Record()
   expect(instance.data).toBeUndefined()
-})
-
-test('A record model has a default cas unique', () => {
-  const instance = new Record()
-  expect(instance.casUnique).toBeUndefined()
 })

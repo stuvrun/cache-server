@@ -57,12 +57,15 @@ class Server {
 
       try {
         if (command._forWait.includes(cmd) && forWait.cmd === '') {
+          checker.args[cmd](args)
           checker.setterArgs(args)
 
           forWait.cmd = cmd
           forWait.args = args
         } else {
-          command[cmd](client, [...forWait.args, ...args])
+          const argsMerge = [...forWait.args, ...args]
+          checker.args[cmd || 'get'](argsMerge)
+          command[cmd](client, argsMerge)
 
           cleanForWait()
         }

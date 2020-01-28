@@ -25,9 +25,6 @@ class Record extends Abstract {
 
     /** @type {string} */
     this.data = undefined
-
-    /** @type {number} */
-    this.casUnique = undefined
   }
 }
 
