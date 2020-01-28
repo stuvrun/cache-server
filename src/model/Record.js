@@ -25,6 +25,12 @@ class Record extends Abstract {
 
     /** @type {string} */
     this.data = undefined
+
+    /** @type {number} */
+    this.created = Date.now()
+
+    /** @type {number} */
+    this.exptime = 0
   }
 }
 

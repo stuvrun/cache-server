@@ -2,6 +2,7 @@ const net = require('net')
 const checker = require('./checker')
 const command = require('./command')
 const commandParser = require('./commandParser')
+const expirationService = require('./expirationService')
 
 /**
  * Class for create a TCP server.
@@ -24,6 +25,8 @@ class Server {
     })
 
     this.server.listen(config.port, () => {
+      expirationService(command._storage)
+
       console.log('server bound')
       console.log('opened server on', this.server.address())
       console.log('started')

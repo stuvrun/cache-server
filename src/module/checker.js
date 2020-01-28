@@ -51,6 +51,9 @@ const checker = {
     },
     cas: (args) => {
       checker.args.set(args, 6, 8)
+    },
+    delete: (args) => {
+      checker.args.set(args, 2, 3)
     }
   }
 }

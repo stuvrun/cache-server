@@ -125,11 +125,28 @@ const command = {
       command.write(client, response, noreply)
     }
   },
+  // delete
+  delete: (client, args = []) => {
+    const key = args[1]
+    const noreply = checker.toReply(args, 2)
+    const element = command._storage.get(key)
+    const response = new Response()
+
+    if (element) {
+      command._storage.delete(key)
+      response.append('DELETED\r\n')
+    } else {
+      response.append('NOT_FOUND\r\n')
+    }
+
+    command.write(client, response, noreply)
+  },
   // generic
   createRecord: (args) => {
     const record = new Record()
     record.id = command._counter
     record.flags = Number(args[2])
+    record.exptime = Number(args[3])
     record.bytes = Number(args[4])
     record.data = args[args.length - 1]
 
