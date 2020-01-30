@@ -54,6 +54,9 @@ const checker = {
     },
     delete: (args) => {
       checker.args.set(args, 2, 3)
+    },
+    quit: (args) => {
+      checker.args.set(args, 1, 1)
     }
   }
 }
