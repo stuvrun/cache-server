@@ -24,10 +24,17 @@ Use the package manager [Yarn](https://yarnpkg.com/) to install the dependencies
 ~$ yarn start
 ```
 
-### Test
+### Test - Jest
 
 ```bash
 ~$ yarn test
+```
+
+### Test - JMeter
+
+```bash
+~$ # open file with jmeter
+~$ ./jmeter_test_plan.jmx
 ```
 
 ## Contributing
@@ -38,4 +45,4 @@ Please make sure to update tests as appropriate.
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
-Copyright (c) 2019 Brayan Steven Rendón
+Copyright (c) 2020 Brayan Steven Rendón
