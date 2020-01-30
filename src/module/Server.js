@@ -64,7 +64,7 @@ class Server {
           throw Error(CustomError.default())
         }
 
-        if (command._forWait.includes(cmd) && forWait.cmd === '') {
+        if (command._forWait.includes(cmd) && forWait.cmd === '' && request.match(/\r\n/g).length === 1) {
           checker.args[cmd](args)
           checker.setterArgs(args)
 
