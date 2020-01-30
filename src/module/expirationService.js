@@ -11,7 +11,11 @@ const worker = require('./expirationWorker')
 function expirationService (dataStorage = new DataStorage()) {
   worker(dataStorage)
     .then(key => { if (key) dataStorage.delete(key) })
-    .finally(() => { expirationService(dataStorage) })
+    .finally(() => {
+      setTimeout(() => {
+        expirationService(dataStorage)
+      }, 1000)
+    })
 }
 
 module.exports = expirationService
