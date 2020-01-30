@@ -13,7 +13,7 @@ const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas']
 const command = {
   _counter: 1,
   _forWait,
-  _allCommands: ['get', 'gets', 'delete', ..._forWait],
+  _allCommands: ['quit', 'get', 'gets', 'delete', ..._forWait],
   _storage: new DataStorage(),
   // get gets
   get: (client, args = [], withCAS = false) => {
