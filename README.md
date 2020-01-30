@@ -16,12 +16,24 @@ Use the package manager [Yarn](https://yarnpkg.com/) to install the dependencies
 ~$ yarn install
 ```
 
+### Build Docker image
+
+```bash
+~$ docker build -f ./Dockerfile . --no-cache -t braren/cache-server:1.0.0
+```
+
 ## Usage
 
 ### Run
 
 ```bash
 ~$ yarn start
+```
+
+### Run Docker image
+
+```bash
+~$ docker run --name mycache -p 11211:11211 -d braren/cache-server:1.0.0
 ```
 
 ### Test - Jest
