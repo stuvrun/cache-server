@@ -1,4 +1,5 @@
 const program = require('commander');
+const message = require('./message');
 const Config = require('../model/Config');
 
 const config = new Config();
@@ -13,7 +14,7 @@ class ArgumentParser {
   constructor () {
     program.version(config.version);
 
-    program.option('-p, --port <number>', 'port number where it will listen for TCP connections', '11211');
+    program.option('-p, --port <number>', message.portDescription, '11211');
 
     program.parse(process.argv);
   }

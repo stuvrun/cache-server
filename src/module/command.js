@@ -1,5 +1,6 @@
 const DataStorage = require('./DataStorage');
 const checker = require('./checker');
+const message = require('./message');
 const Response = require('./Response');
 const Record = require('../model/Record');
 const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas'];
@@ -25,12 +26,16 @@ const command = {
       if (element) {
         const CAS_COMPLEMENT = withCAS ? ' ' + element.id : '';
 
-        response.append(`VALUE ${key} ${element.flags} ${element.bytes + CAS_COMPLEMENT}\r\n`);
-        response.append(element.data + '\r\n');
+        response.append(`${message.reply.value} `);
+        response.append(`${key} ${element.flags} ${element.bytes}`);
+        response.append(CAS_COMPLEMENT);
+        response.append(message.reply.newLine);
+        response.append(element.data);
+        response.append(message.reply.newLine);
       }
     });
 
-    response.append('END\r\n');
+    response.append(message.reply.end);
     command.write(client, response);
   },
   gets: (client, args = []) => {
@@ -48,7 +53,7 @@ const command = {
     command._storage.set(key, record);
 
     const response = new Response();
-    response.append('STORED\r\n');
+    response.append(message.reply.stored);
     command.write(client, response, noreply);
   },
   add: (client, args = []) => {
@@ -58,7 +63,7 @@ const command = {
 
     if (element) {
       const response = new Response();
-      response.append('NOT_STORED\r\n');
+      response.append(message.reply.notStored);
       command.write(client, response, noreply);
     } else {
       command.set(client, args);
@@ -73,7 +78,7 @@ const command = {
       command.set(client, args);
     } else {
       const response = new Response();
-      response.append('NOT_STORED\r\n');
+      response.append(message.reply.notStored);
       command.write(client, response, noreply);
     }
   },
@@ -88,7 +93,7 @@ const command = {
       command.set(client, args);
     } else {
       const response = new Response();
-      response.append('NOT_STORED\r\n');
+      response.append(message.reply.notStored);
       command.write(client, response, noreply);
     }
   },
@@ -103,7 +108,7 @@ const command = {
       command.set(client, args);
     } else {
       const response = new Response();
-      response.append('NOT_STORED\r\n');
+      response.append(message.reply.notStored);
       command.write(client, response, noreply);
     }
   },
@@ -118,12 +123,12 @@ const command = {
         command.set(client, args);
       } else {
         const response = new Response();
-        response.append('EXISTS\r\n');
+        response.append(message.reply.exists);
         command.write(client, response, noreply);
       }
     } else {
       const response = new Response();
-      response.append('NOT_FOUND\r\n');
+      response.append(message.reply.notFound);
       command.write(client, response, noreply);
     }
   },
@@ -136,9 +141,9 @@ const command = {
 
     if (element) {
       command._storage.delete(key);
-      response.append('DELETED\r\n');
+      response.append(message.reply.deleted);
     } else {
-      response.append('NOT_FOUND\r\n');
+      response.append(message.reply.notFound);
     }
 
     command.write(client, response, noreply);

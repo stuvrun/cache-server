@@ -1,7 +1,7 @@
 const net = require('net');
 const checker = require('./checker');
 const command = require('./command');
-const commonError = require('./commonError');
+const Error = require('./Error');
 const commandParser = require('./commandParser');
 const expirationService = require('./expirationService');
 
@@ -50,7 +50,7 @@ class Server {
 
       try {
         if (command._allCommands.includes(cmd) === false) {
-          throw Error(commonError.default());
+          throw new Error.Default();
         }
 
         if (command._forWait.includes(cmd) && forWait.cmd === '' && request.match(/\r\n/g).length === 1) {
@@ -70,7 +70,7 @@ class Server {
         const noreply = checker.toReply(args, 5) || checker.toReply(args, 6);
 
         command.write(client, err.message, noreply);
-        console.error(err.message);
+        console.error(`${err.name}: ${err.message}`);
 
         cleanForWait();
       }

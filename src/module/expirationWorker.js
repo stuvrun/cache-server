@@ -2,6 +2,8 @@ const {
   Worker, isMainThread, parentPort, workerData
 } = require('worker_threads');
 const DataStorage = require('./DataStorage');
+const Error = require('./Error');
+const message = require('./message');
 
 if (isMainThread) {
   module.exports = function runService (workerData = new DataStorage()) {
@@ -11,7 +13,7 @@ if (isMainThread) {
       worker.on('error', reject);
       worker.on('exit', (code) => {
         if (code !== 0) {
-          reject(new Error(`Worker stopped with exit code ${code}`));
+          reject(new Error.Server(`${message.reply.workerStopped} ${code}`));
         }
       });
     });
