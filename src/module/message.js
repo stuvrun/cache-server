@@ -5,22 +5,4 @@
  * @class
  */
 module.exports = {
-  CustomError: {
-    client: (message = '') => `CLIENT_ERROR ${message}\r\n`,
-    default: () => 'ERROR\r\n',
-    server: (message = '') => `SERVER_ERROR ${message}\r\n`
-  },
-  Response: class {
-    constructor () {
-      this.data = [];
-    }
-
-    append (text) {
-      this.data.push(text);
-    }
-
-    toString () {
-      return this.data.join('');
-    }
-  }
 };

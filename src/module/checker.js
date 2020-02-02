@@ -1,4 +1,4 @@
-const { CustomError } = require('./message');
+const commonError = require('./commonError');
 
 /**
  * Class singleton for checker.
@@ -11,7 +11,7 @@ const checker = {
   dataBinary: (record) => {
     const DATA_ARRAY = new TextEncoder().encode(record.data);
     if (DATA_ARRAY.length !== record.bytes) {
-      throw new Error(CustomError.client('bad data chunk') + CustomError.default());
+      throw new Error(commonError.client('bad data chunk') + commonError.default());
     }
 
     return DATA_ARRAY.length;
@@ -20,13 +20,13 @@ const checker = {
     const params = args[2] + args[3] + args[4] + (args[0] === ' cas' ? args[5] : 0);
 
     if (!Number.isInteger(Number(params))) {
-      throw new Error(CustomError.client('bad command line format'));
+      throw new Error(commonError.client('bad command line format'));
     }
   },
   args: {
     get: (args = []) => {
       if (args.length !== 2) {
-        throw new Error(CustomError.default());
+        throw new Error(commonError.default());
       }
     },
     gets: (args = []) => {
@@ -34,7 +34,7 @@ const checker = {
     },
     set: (args = [], min = 5, max = 7) => {
       if (!(args.length >= min && args.length <= max)) {
-        throw new Error(CustomError.default());
+        throw new Error(commonError.default());
       }
     },
     add: (args) => {

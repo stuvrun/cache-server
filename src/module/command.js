@@ -1,6 +1,6 @@
 const DataStorage = require('./DataStorage');
 const checker = require('./checker');
-const { Response } = require('./message');
+const Response = require('./Response');
 const Record = require('../model/Record');
 const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas'];
 
