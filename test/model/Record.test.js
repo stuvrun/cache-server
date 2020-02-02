@@ -1,36 +1,36 @@
 /* globals test expect */
-const Record = require('../../src/model/Record')
+const Record = require('../../src/model/Record');
 
 test('An record model is defined', () => {
-  expect(Record).toBeDefined()
-})
+  expect(Record).toBeDefined();
+});
 
 test('A record model can be instanced', () => {
-  const instance = new Record()
-  expect(instance).toBeDefined()
-})
+  const instance = new Record();
+  expect(instance).toBeDefined();
+});
 
 test('A record model can be parsed to string', () => {
-  const instance = new Record()
-  expect(instance.toString()).toBe('{}')
-})
+  const instance = new Record();
+  expect(instance.toString()).toBe('{}');
+});
 
 test('A record model has a default unique id', () => {
-  const instance = new Record()
-  expect(instance.id).toBeUndefined()
-})
+  const instance = new Record();
+  expect(instance.id).toBeUndefined();
+});
 
 test('A record model has a default flags', () => {
-  const instance = new Record()
-  expect(instance.flags).toBeUndefined()
-})
+  const instance = new Record();
+  expect(instance.flags).toBeUndefined();
+});
 
 test('A record model has a default bytes', () => {
-  const instance = new Record()
-  expect(instance.bytes).toBeUndefined()
-})
+  const instance = new Record();
+  expect(instance.bytes).toBeUndefined();
+});
 
 test('A record model has a default data', () => {
-  const instance = new Record()
-  expect(instance.data).toBeUndefined()
-})
+  const instance = new Record();
+  expect(instance.data).toBeUndefined();
+});

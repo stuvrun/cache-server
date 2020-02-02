@@ -1,29 +1,29 @@
 /* globals test expect */
-const ArgumentParser = require('../../src/module/ArgumentParser')
+const ArgumentParser = require('../../src/module/ArgumentParser');
 
 test('An argument parser is defined', () => {
-  expect(ArgumentParser).toBeDefined()
-})
+  expect(ArgumentParser).toBeDefined();
+});
 
 test('An argument parser can be instanced', () => {
-  const instance = new ArgumentParser()
-  expect(instance).toBeDefined()
-})
+  const instance = new ArgumentParser();
+  expect(instance).toBeDefined();
+});
 
 test('An argument parser has a config model', () => {
-  const instance = new ArgumentParser()
-  const config = instance.getConfig()
-  expect(config).toBeDefined()
-})
+  const instance = new ArgumentParser();
+  const config = instance.getConfig();
+  expect(config).toBeDefined();
+});
 
 test('A config model has a default port', () => {
-  const instance = new ArgumentParser()
-  const config = instance.getConfig()
-  expect(config.port).toBe(11211)
-})
+  const instance = new ArgumentParser();
+  const config = instance.getConfig();
+  expect(config.port).toBe(11211);
+});
 
 test('A config model has a version', () => {
-  const instance = new ArgumentParser()
-  const config = instance.getConfig()
-  expect(config.version).toBe('1.0.0')
-})
+  const instance = new ArgumentParser();
+  const config = instance.getConfig();
+  expect(config.version).toBe('1.0.0');
+});

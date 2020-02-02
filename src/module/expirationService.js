@@ -1,5 +1,5 @@
-const DataStorage = require('./DataStorage')
-const worker = require('./expirationWorker')
+const DataStorage = require('./DataStorage');
+const worker = require('./expirationWorker');
 
 /**
  * Function for expiration service.
@@ -10,12 +10,12 @@ const worker = require('./expirationWorker')
  */
 function expirationService (dataStorage = new DataStorage()) {
   worker(dataStorage)
-    .then(key => { if (key) dataStorage.delete(key) })
+    .then(key => { if (key) dataStorage.delete(key); })
     .finally(() => {
       setTimeout(() => {
-        expirationService(dataStorage)
-      }, 1000)
-    })
+        expirationService(dataStorage);
+      }, 1000);
+    });
 }
 
-module.exports = expirationService
+module.exports = expirationService;

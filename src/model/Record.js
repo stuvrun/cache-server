@@ -1,4 +1,4 @@
-const Abstract = require('./Abstract')
+const Abstract = require('./Abstract');
 
 /**
  * Class for record (row) models.
@@ -12,26 +12,26 @@ class Record extends Abstract {
    * @constructor
    */
   constructor () {
-    super()
+    super();
 
     /** @type {number} */
-    this.id = undefined
+    this.id = undefined;
 
     /** @type {number} */
-    this.flags = undefined
+    this.flags = undefined;
 
     /** @type {number} */
-    this.bytes = undefined
+    this.bytes = undefined;
 
     /** @type {string} */
-    this.data = undefined
+    this.data = undefined;
 
     /** @type {number} */
-    this.created = Date.now()
+    this.created = Date.now();
 
     /** @type {number} */
-    this.exptime = 0
+    this.exptime = 0;
   }
 }
 
-module.exports = Record
+module.exports = Record;

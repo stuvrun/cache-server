@@ -6,20 +6,20 @@
  */
 class DataStorage {
   constructor () {
-    this.table = {}
+    this.table = {};
   }
 
   delete (key) {
-    return delete this.table[key]
+    return delete this.table[key];
   }
 
   get (key) {
-    return this.table[key]
+    return this.table[key];
   }
 
   set (key, data) {
-    this.table[key] = data
+    this.table[key] = data;
   }
 }
 
-module.exports = DataStorage
+module.exports = DataStorage;

@@ -10,8 +10,8 @@ class Abstract {
    * @returns {string} JSON string representation of the model.
    */
   toString () {
-    return JSON.stringify(this)
+    return JSON.stringify(this);
   }
 }
 
-module.exports = Abstract
+module.exports = Abstract;

@@ -12,15 +12,15 @@ module.exports = {
   },
   Response: class {
     constructor () {
-      this.data = []
+      this.data = [];
     }
 
     append (text) {
-      this.data.push(text)
+      this.data.push(text);
     }
 
     toString () {
-      return this.data.join('')
+      return this.data.join('');
     }
   }
-}
+};

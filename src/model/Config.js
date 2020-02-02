@@ -1,5 +1,5 @@
-const packageOrigen = require('../../package.json')
-const Abstract = require('./Abstract')
+const packageOrigen = require('../../package.json');
+const Abstract = require('./Abstract');
 
 /**
  * Class for base models.
@@ -13,14 +13,14 @@ class Config extends Abstract {
    * @constructor
    */
   constructor () {
-    super()
+    super();
 
     /** @type {number} */
-    this.port = 11211
+    this.port = 11211;
 
     /** @type {string} */
-    this.version = packageOrigen.version
+    this.version = packageOrigen.version;
   }
 }
 
-module.exports = Config
+module.exports = Config;

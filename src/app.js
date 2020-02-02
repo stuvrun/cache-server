@@ -1,5 +1,5 @@
-const ArgumentParser = require('./module/ArgumentParser')
-const Server = require('./module/Server')
+const ArgumentParser = require('./module/ArgumentParser');
+const Server = require('./module/Server');
 
 /**
  * Class for init app runner.
@@ -9,16 +9,16 @@ const Server = require('./module/Server')
  */
 class App {
   constructor () {
-    const ARGUMENT_PARSER = new ArgumentParser()
-    this.CONFIG = ARGUMENT_PARSER.getConfig()
+    const ARGUMENT_PARSER = new ArgumentParser();
+    this.CONFIG = ARGUMENT_PARSER.getConfig();
   }
 
   run () {
-    this.server = new Server(this.CONFIG)
+    this.server = new Server(this.CONFIG);
   }
 }
 
-const app = new App()
-app.run()
+const app = new App();
+app.run();
 
-module.exports = app
+module.exports = app;

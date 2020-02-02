@@ -1,9 +1,9 @@
-const net = require('net')
-const checker = require('./checker')
-const command = require('./command')
-const { CustomError } = require('./message')
-const commandParser = require('./commandParser')
-const expirationService = require('./expirationService')
+const net = require('net');
+const checker = require('./checker');
+const command = require('./command');
+const { CustomError } = require('./message');
+const commandParser = require('./commandParser');
+const expirationService = require('./expirationService');
 
 /**
  * Class for create a TCP server.
@@ -17,19 +17,19 @@ class Server {
    * @param {Config} config Model with the configuration.
    */
   constructor (config) {
-    console.log('starting...')
+    console.log('starting...');
 
-    this.server = net.createServer(this.listener.bind(this))
+    this.server = net.createServer(this.listener.bind(this));
 
     this.server.on('error', (err) => {
-      throw err
-    })
+      throw err;
+    });
 
     this.server.listen(config.port, () => {
-      expirationService(command._storage)
+      expirationService(command._storage);
 
-      console.log('opened server on', this.server.address())
-    })
+      console.log('opened server on', this.server.address());
+    });
   }
 
   /**
@@ -37,45 +37,45 @@ class Server {
    * @param {Socket} client An abstraction of a TCP socket endpoint.
    */
   listener (client) {
-    const forWait = { cmd: '', args: [] }
+    const forWait = { cmd: '', args: [] };
     const cleanForWait = () => {
-      forWait.cmd = ''
-      forWait.args = []
-    }
+      forWait.cmd = '';
+      forWait.args = [];
+    };
 
     client.on('data', (data) => {
-      const request = data.toString()
-      const args = commandParser(request)
-      const cmd = forWait.cmd || args[0]
+      const request = data.toString();
+      const args = commandParser(request);
+      const cmd = forWait.cmd || args[0];
 
       try {
         if (command._allCommands.includes(cmd) === false) {
-          throw Error(CustomError.default())
+          throw Error(CustomError.default());
         }
 
         if (command._forWait.includes(cmd) && forWait.cmd === '' && request.match(/\r\n/g).length === 1) {
-          checker.args[cmd](args)
-          checker.setterArgs(args)
+          checker.args[cmd](args);
+          checker.setterArgs(args);
 
-          forWait.cmd = cmd
-          forWait.args = args
+          forWait.cmd = cmd;
+          forWait.args = args;
         } else {
-          const argsMerge = [...forWait.args, ...args]
-          checker.args[cmd || 'get'](argsMerge)
-          command[cmd](client, argsMerge)
+          const argsMerge = [...forWait.args, ...args];
+          checker.args[cmd || 'get'](argsMerge);
+          command[cmd](client, argsMerge);
 
-          cleanForWait()
+          cleanForWait();
         }
       } catch (err) {
-        const noreply = checker.toReply(args, 5) || checker.toReply(args, 6)
+        const noreply = checker.toReply(args, 5) || checker.toReply(args, 6);
 
-        command.write(client, err.message, noreply)
-        console.error(err.message)
+        command.write(client, err.message, noreply);
+        console.error(err.message);
 
-        cleanForWait()
+        cleanForWait();
       }
-    })
+    });
   }
 }
 
-module.exports = Server
+module.exports = Server;

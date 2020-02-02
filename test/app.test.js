@@ -3,6 +3,6 @@
 
 test('app is started', () => {
   // FIXME: To change runner for app.
-  expect({}).toBeDefined()
+  expect({}).toBeDefined();
   // expect(app).toBeDefined()
-})
+});

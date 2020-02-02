@@ -1,7 +1,7 @@
-const program = require('commander')
-const Config = require('../model/Config')
+const program = require('commander');
+const Config = require('../model/Config');
 
-const config = new Config()
+const config = new Config();
 
 /**
  * Class for arguments parser elements.
@@ -11,11 +11,11 @@ const config = new Config()
  */
 class ArgumentParser {
   constructor () {
-    program.version(config.version)
+    program.version(config.version);
 
-    program.option('-p, --port <number>', 'port number where it will listen for TCP connections', '11211')
+    program.option('-p, --port <number>', 'port number where it will listen for TCP connections', '11211');
 
-    program.parse(process.argv)
+    program.parse(process.argv);
   }
 
   /**
@@ -23,10 +23,10 @@ class ArgumentParser {
    * @returns {Config} Config model.
    */
   getConfig () {
-    if (program.port) config.port = Number.parseInt(program.port)
+    if (program.port) config.port = Number.parseInt(program.port);
 
-    return config
+    return config;
   }
 }
 
-module.exports = ArgumentParser
+module.exports = ArgumentParser;
