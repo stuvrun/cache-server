@@ -10,5 +10,5 @@ test('A data storage has instanced at command', () => {
 });
 
 test('An array funtions has included at command', () => {
-  expect(command._forWait).toStrictEqual(['set', 'add', 'replace', 'append', 'prepend']);
+  expect(command._forWait).toStrictEqual(['set', 'add', 'replace', 'append', 'prepend', 'cas']);
 });

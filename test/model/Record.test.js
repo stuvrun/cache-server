@@ -12,7 +12,7 @@ test('A record model can be instanced', () => {
 
 test('A record model can be parsed to string', () => {
   const instance = new Record();
-  expect(instance.toString()).toBe('{}');
+  expect(instance.toString()).toBe(`{"created":${Date.now()},"exptime":0}`);
 });
 
 test('A record model has a default unique id', () => {
