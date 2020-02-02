@@ -26,7 +26,6 @@ if (isMainThread) {
     const exptime = record.created + (record.exptime * 1000)
 
     if (Date.now() >= exptime) {
-      console.log(`Runnig expiration worker for key: ${key}`)
       response = key
     }
   }

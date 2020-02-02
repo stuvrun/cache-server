@@ -28,10 +28,7 @@ class Server {
     this.server.listen(config.port, () => {
       expirationService(command._storage)
 
-      console.log('server bound')
       console.log('opened server on', this.server.address())
-      console.log('started')
-      console.log('--')
     })
   }
 
@@ -40,12 +37,6 @@ class Server {
    * @param {Socket} client An abstraction of a TCP socket endpoint.
    */
   listener (client) {
-    console.log('client connected')
-
-    client.on('end', () => {
-      console.log('client disconnected')
-    })
-
     const forWait = { cmd: '', args: [] }
     const cleanForWait = () => {
       forWait.cmd = ''
@@ -56,8 +47,6 @@ class Server {
       const request = data.toString()
       const args = commandParser(request)
       const cmd = forWait.cmd || args[0]
-
-      console.log(`** command: ${cmd}\r\n${data}**`)
 
       try {
         if (command._allCommands.includes(cmd) === false) {
@@ -81,7 +70,7 @@ class Server {
         const noreply = checker.toReply(args, 5) || checker.toReply(args, 6)
 
         command.write(client, err.message, noreply)
-        console.log('ERROR: ' + err.message)
+        console.error(err.message)
 
         cleanForWait()
       }
