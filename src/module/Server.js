@@ -67,8 +67,14 @@ class Server {
       } catch (err) {
         const noreply = checker.toReply(args, 5) || checker.toReply(args, 6);
 
-        command.write(client, err.message, noreply);
-        console.error(`${err.name}: ${err.message}`);
+        if (err instanceof Error.Client ||
+          err instanceof Error.Default ||
+          err instanceof Error.Server) {
+          command.write(client, err.message, noreply);
+          console.error(`${err.name}: ${err.message}`);
+        } else {
+          console.error(`UnexpectedError: ${err.message}`);
+        }
 
         cleanForWait();
       }
