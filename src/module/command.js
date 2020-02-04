@@ -7,8 +7,6 @@ const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas'];
 
 /**
  * Class singleton for commands.
- * @author braren <i@braren.co>
- * @copyright Copyright (c) 2020 Brayan Steven Rendón
  * @class
  */
 const command = {

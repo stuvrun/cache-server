@@ -7,8 +7,6 @@ const expirationService = require('./expirationService');
 
 /**
  * Class for create a TCP server.
- * @author braren <i@braren.co>
- * @copyright Copyright (c) 2020 Brayan Steven Rendón
  * @class
  */
 class Server {
