@@ -22,11 +22,11 @@ const command = {
       const element = command._storage.get(key);
 
       if (element) {
-        const CAS_COMPLEMENT = withCAS ? ' ' + element.id : '';
+        const CASComplement = withCAS ? ' ' + element.id : '';
 
         response.append(`${message.reply.value} `);
         response.append(`${key} ${element.flags} ${element.bytes}`);
-        response.append(CAS_COMPLEMENT);
+        response.append(CASComplement);
         response.append(message.reply.newLine);
         response.append(element.data);
         response.append(message.reply.newLine);

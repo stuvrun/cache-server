@@ -7,12 +7,12 @@ const Server = require('./module/Server');
  */
 class App {
   constructor () {
-    const ARGUMENT_PARSER = new ArgumentParser();
-    this.CONFIG = ARGUMENT_PARSER.getConfig();
+    const argumentParser = new ArgumentParser();
+    this.config = argumentParser.getConfig();
   }
 
   run () {
-    this.server = new Server(this.CONFIG);
+    this.server = new Server(this.config);
   }
 }
 

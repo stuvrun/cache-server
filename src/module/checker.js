@@ -8,12 +8,12 @@ const message = require('./message');
 const checker = {
   toReply: (args, index) => args[index] === 'noreply',
   dataBinary: (record) => {
-    const DATA_ARRAY = new TextEncoder().encode(record.data);
-    if (DATA_ARRAY.length !== record.bytes) {
+    const dataArray = new TextEncoder().encode(record.data);
+    if (dataArray.length !== record.bytes) {
       throw new Error.Client(message.validation.badDataChunk);
     }
 
-    return DATA_ARRAY.length;
+    return dataArray.length;
   },
   setterArgs: (args) => {
     const params = args[2] + args[3] + args[4] + (args[0] === ' cas' ? args[5] : 0);
