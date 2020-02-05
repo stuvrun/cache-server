@@ -43,6 +43,7 @@ class Server {
 
     client.on('data', (data) => {
       const request = data.toString();
+      const lines = request.match(/\r\n/g) || [];
       const args = commandParser(request);
       const cmd = forWait.cmd || args[0];
 
@@ -51,7 +52,7 @@ class Server {
           throw new Error.Default();
         }
 
-        if (command._forWait.includes(cmd) && forWait.cmd === '' && request.match(/\r\n/g).length === 1) {
+        if (command._forWait.includes(cmd) && forWait.cmd === '' && lines.length === 1) {
           validation.checkArgumentsLength[cmd](args);
           validation.checkNumericArguments(args);
 
