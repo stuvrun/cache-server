@@ -1,9 +1,9 @@
 const net = require('net');
-const checker = require('./checker');
 const command = require('./command');
 const Error = require('./Error');
 const commandParser = require('./commandParser');
 const expirationService = require('./expirationService');
+const validation = require('./validation');
 
 /**
  * Class for create a TCP server.
@@ -52,20 +52,20 @@ class Server {
         }
 
         if (command._forWait.includes(cmd) && forWait.cmd === '' && request.match(/\r\n/g).length === 1) {
-          checker.args[cmd](args);
-          checker.setterArgs(args);
+          validation.checkArgumentsLength[cmd](args);
+          validation.checkNumericArguments(args);
 
           forWait.cmd = cmd;
           forWait.args = args;
         } else {
           const argsMerge = [...forWait.args, ...args];
-          checker.args[cmd || 'get'](argsMerge);
+          validation.checkArgumentsLength[cmd || 'get'](argsMerge);
           command[cmd](client, argsMerge);
 
           cleanForWait();
         }
       } catch (err) {
-        const noreply = checker.toReply(args, 5) || checker.toReply(args, 6);
+        const noreply = validation.toReply(args, 5) || validation.toReply(args, 6);
 
         if (err instanceof Error.Client ||
           err instanceof Error.Default ||

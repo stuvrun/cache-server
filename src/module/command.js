@@ -1,8 +1,8 @@
 const DataStorage = require('./DataStorage');
-const checker = require('./checker');
 const message = require('./message');
 const Response = require('./Response');
 const Record = require('../model/Record');
+const validation = require('./validation');
 const _forWait = ['set', 'add', 'replace', 'append', 'prepend', 'cas'];
 
 /**
@@ -45,7 +45,7 @@ const command = {
   // set add replace append prepend cas
   set: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 5);
+    const noreply = validation.toReply(args, 5);
     const record = command.createRecord(args);
 
     command._storage.set(key, record);
@@ -56,7 +56,7 @@ const command = {
   },
   add: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 5);
+    const noreply = validation.toReply(args, 5);
     const element = command._storage.get(key);
 
     if (element) {
@@ -69,7 +69,7 @@ const command = {
   },
   replace: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 5);
+    const noreply = validation.toReply(args, 5);
     const element = command._storage.get(key);
 
     if (element) {
@@ -82,7 +82,7 @@ const command = {
   },
   append: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 5);
+    const noreply = validation.toReply(args, 5);
     const element = command._storage.get(key);
 
     if (element) {
@@ -97,7 +97,7 @@ const command = {
   },
   prepend: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 5);
+    const noreply = validation.toReply(args, 5);
     const element = command._storage.get(key);
 
     if (element) {
@@ -112,7 +112,7 @@ const command = {
   },
   cas: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 6);
+    const noreply = validation.toReply(args, 6);
     const idCAS = Number(args[5]);
     const element = command._storage.get(key);
 
@@ -133,7 +133,7 @@ const command = {
   // delete
   delete: (client, args = []) => {
     const key = args[1];
-    const noreply = checker.toReply(args, 2);
+    const noreply = validation.toReply(args, 2);
     const element = command._storage.get(key);
     const response = new Response();
 
@@ -155,7 +155,7 @@ const command = {
     record.bytes = Number(args[4]);
     record.data = args[args.length - 1];
 
-    record.bytes = checker.dataBinary(record);
+    record.bytes = validation.checkBinaryLength(record);
     command._counter++;
 
     return record;
