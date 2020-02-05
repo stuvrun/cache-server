@@ -23,39 +23,40 @@ const checker = {
     }
   },
   args: {
-    get: (args = []) => {
-      if (args.length !== 2) {
-        throw new Error.Default();
-      }
-    },
-    gets: (args = []) => {
-      checker.args.get(args);
-    },
-    set: (args = [], min = 5, max = 7) => {
+    _base: (args = [], min = 5, max = 7) => {
       if (!(args.length >= min && args.length <= max)) {
         throw new Error.Default();
       }
     },
+    get: (args = []) => {
+      checker.args._base(args, 2, 2);
+    },
+    gets: (args = []) => {
+      checker.args._base(args, 2, 2);
+    },
+    set: (args) => {
+      checker.args._base(args);
+    },
     add: (args) => {
-      checker.args.set(args);
+      checker.args._base(args);
     },
     replace: (args) => {
-      checker.args.set(args);
+      checker.args._base(args);
     },
     append: (args) => {
-      checker.args.set(args);
+      checker.args._base(args);
     },
     prepend: (args) => {
-      checker.args.set(args);
+      checker.args._base(args);
     },
     cas: (args) => {
-      checker.args.set(args, 6, 8);
+      checker.args._base(args, 6, 8);
     },
     delete: (args) => {
-      checker.args.set(args, 2, 3);
+      checker.args._base(args, 2, 3);
     },
     quit: (args) => {
-      checker.args.set(args, 1, 1);
+      checker.args._base(args, 1, 1);
     }
   }
 };
