@@ -49,6 +49,62 @@ Use the package manager [Yarn](https://yarnpkg.com/) to install the dependencies
 ~$ ./jmeter_test_plan.jmx
 ```
 
+## Examples
+
+### Retrieval commands
+
+#### input
+
+```bash
+get <key>*\r\n #* means one or more key strings separated by whitespace.
+gets <key>*\r\n #* means one or more key strings separated by whitespace.
+```
+
+#### output
+
+```bash
+VALUE <key> <flags> <bytes> [<cas unique>]\r\n
+<data block>\r\n
+END
+```
+
+### Storage commands
+
+#### input
+
+```bash
+set <key> <flags> <exptime> <bytes> [noreply]\r\n
+add <key> <flags> <exptime> <bytes> [noreply]\r\n
+replace <key> <flags> <exptime> <bytes> [noreply]\r\n
+append <key> <flags> <exptime> <bytes> [noreply]\r\n
+prepend <key> <flags> <exptime> <bytes> [noreply]\r\n
+cas <key> <flags> <exptime> <bytes> <cas unique> [noreply]\r\n
+```
+
+#### output
+
+```bash
+STORED\r\n #to indicate success.
+NOT_STORED\r\n #to indicate the data was not stored, but not because of an error. This normally means that the condition for an "add" or a "replace" command wasn't met.
+EXISTS\r\n #to indicate that the item you are trying to store with a "cas" command has been modified since you last fetched it.
+NOT_FOUND\r\n #to indicate that the item you are trying to store with a "cas" command did not exist.
+```
+
+### Deletion
+
+#### input
+
+```bash
+delete <key> [noreply]\r\n
+```
+
+#### output
+
+```bash
+DELETED\r\n #to indicate success or
+NOT_FOUND\r\n #to indicate that the item with this key was not found.
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
