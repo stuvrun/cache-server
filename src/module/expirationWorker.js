@@ -16,10 +16,15 @@ if (isMainThread) {
           reject(new Error.Server(`${message.reply.workerStopped} ${code}`));
         }
       });
-    });
+    }).then(key => { if (key) workerData.delete(key); })
+      .finally(() => {
+        setTimeout(() => {
+          runService(workerData);
+        }, 1000);
+      });
   };
 } else {
-  const dataStorage = workerData || new DataStorage();
+  const dataStorage = workerData;
   const table = dataStorage.table;
   let response = null;
 

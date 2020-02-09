@@ -2,7 +2,7 @@ const net = require('net');
 const command = require('./command');
 const Error = require('./Error');
 const commandParser = require('./commandParser');
-const expirationService = require('./expirationService');
+const expirationWorker = require('./expirationWorker');
 const validation = require('./validation');
 
 /**
@@ -24,7 +24,7 @@ class Server {
     });
 
     this.server.listen(config.port, () => {
-      expirationService(command._storage);
+      expirationWorker(command._storage);
 
       console.log('opened server on', this.server.address());
     });
