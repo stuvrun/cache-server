@@ -1,9 +1,9 @@
 const net = require('net');
-const command = require('./command');
+const commandFactory = require('./commandFactory');
 const Error = require('./Error');
-const commandParser = require('./commandParser');
 const expirationWorker = require('./expirationWorker');
-const validation = require('./validation');
+const paramsParser = require('./paramsParser');
+const Request = require('../model/Request');
 
 /**
  * Class for create a TCP server.
@@ -24,7 +24,7 @@ class Server {
     });
 
     this.server.listen(config.port, () => {
-      expirationWorker(command._storage);
+      expirationWorker(commandFactory._storage);
 
       console.log('opened server on', this.server.address());
     });
@@ -35,51 +35,70 @@ class Server {
    * @param {Socket} client An abstraction of a TCP socket endpoint.
    */
   listener (client) {
-    const forWait = { cmd: '', args: [] };
-    const cleanForWait = () => {
-      forWait.cmd = '';
-      forWait.args = [];
-    };
+    let request = new Request();
 
-    client.on('data', (data) => {
-      const request = data.toString();
-      const lines = request.match(/\r\n/g) || [];
-      const args = commandParser(request);
-      const cmd = forWait.cmd || args[0];
+    client.on('data', (dataRaw) => {
+      const dataString = dataRaw.toString();
+      const params = paramsParser(dataString);
+      const command = commandFactory.getByKey(request.cmd || params[0]);
+      let response = '';
 
       try {
-        if (command._allCommands.includes(cmd) === false) {
-          throw new Error.Default();
-        }
-
-        if (command._forWait.includes(cmd) && forWait.cmd === '' && lines.length === 1) {
-          validation.checkArgumentsLength[cmd](args);
-          validation.checkNumericArguments(args);
-
-          forWait.cmd = cmd;
-          forWait.args = args;
-        } else {
-          const argsMerge = [...forWait.args, ...args];
-          validation.checkArgumentsLength[cmd || 'get'](argsMerge);
-          command[cmd](client, argsMerge);
-
-          cleanForWait();
-        }
+        request = command.parser(params, request, dataString);
+        response = this.commandService(command, request);
       } catch (err) {
-        const noreply = validation.toReply(args, 5) || validation.toReply(args, 6);
-
-        if (err instanceof Error.Client ||
-          err instanceof Error.Default ||
-          err instanceof Error.Server) {
-          command.write(client, err.message, noreply);
-          console.error(`${err.name}: ${err.message}`);
-        } else {
-          console.error(`UnexpectedError: ${err.message}`);
-        }
-
-        cleanForWait();
+        request.waiting = false;
+        response = this.errorService(err);
       }
+
+      this.sendResponse(client, request, response);
+      request = this.keepRequest(request);
     });
+  }
+
+  commandService (command, request) {
+    let response = '';
+
+    if (request.error) {
+      throw request.error;
+    } else if (request.waiting === false) {
+      response = command.run(request);
+    }
+
+    return response;
+  }
+
+  errorService (err) {
+    let errorType = 'UnexpectedError';
+    let response = '';
+
+    if (err instanceof Error.Client ||
+      err instanceof Error.Default ||
+      err instanceof Error.Server) {
+      errorType = err.name;
+      response = err.message;
+    }
+
+    console.error(`${errorType}: ${err.message}`);
+    return response;
+  }
+
+  keepRequest (request) {
+    let result = request;
+
+    if (request.error || request.waiting === false) {
+      result = new Request();
+    }
+
+    return result;
+  }
+
+  sendResponse (client, request, response) {
+    if (request.quitConnection) {
+      client.end();
+    } else if (request.noreply === false && request.waiting === false) {
+      client.write(response);
+    }
   }
 }
 

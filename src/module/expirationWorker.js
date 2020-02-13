@@ -25,7 +25,7 @@ if (isMainThread) {
   };
 } else {
   const dataStorage = workerData;
-  const table = dataStorage.table;
+  const table = dataStorage._table;
   let response = null;
 
   for (const key in table) {

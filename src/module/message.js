@@ -5,6 +5,7 @@
 const newLine = '\r\n';
 
 module.exports = Object.freeze({
+  newLine,
   portDescription: 'port number where it will listen for TCP connections',
   reply: {
     deleted: `DELETED${newLine}`,

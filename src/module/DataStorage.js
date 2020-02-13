@@ -4,19 +4,22 @@
  */
 class DataStorage {
   constructor () {
-    this.table = {};
+    this._counter = 1;
+    this._table = {};
   }
 
   delete (key) {
-    return delete this.table[key];
+    return delete this._table[key];
   }
 
   get (key) {
-    return this.table[key];
+    return this._table[key];
   }
 
   set (key, data) {
-    this.table[key] = data;
+    data.id = this._counter;
+    this._table[key] = data;
+    this._counter++;
   }
 }
 
