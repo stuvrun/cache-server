@@ -12,7 +12,7 @@ test('A config model can be instanced', () => {
 
 test('A config model can be parsed to string', () => {
   const instance = new Config();
-  expect(instance.toString()).toBe('{"port":11211,"version":"1.0.0"}');
+  expect(instance.toString()).toBe('{"port":11211,"version":"1.0.1"}');
 });
 
 test('A config model has a default port', () => {
