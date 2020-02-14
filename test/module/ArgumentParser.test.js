@@ -25,5 +25,5 @@ test('A config model has a default port', () => {
 test('A config model has a version', () => {
   const instance = new ArgumentParser();
   const config = instance.getConfig();
-  expect(config.version).toBe('1.0.0');
+  expect(config.version).toBe('1.0.1');
 });

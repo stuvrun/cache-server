@@ -1,6 +1,6 @@
 {
   "name": "cache-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cache server that complies with the memcached specified protocol.",
   "main": "src/app.js",
   "repository": "git@github.com:braren/cache-server.git",
