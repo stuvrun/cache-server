@@ -16,7 +16,6 @@ const invalid = require('./command/invalid');
  * @class
  */
 const commandFactory = {
-  _counter: 1,
   _storage: new DataStorage(),
 
   getByKey (key = '') {

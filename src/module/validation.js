@@ -1,3 +1,4 @@
+const { TextEncoder } = require('util');
 const Error = require('./Error');
 const message = require('./message');
 
