@@ -51,7 +51,7 @@ const command = {
   },
 
   validate: (params, waiting) => {
-    return validation.checkArrayLength(params[0], 5, 7) ||
+    return validation.checkArrayLength(params[0], 6, 7) ||
       validation.checkNumericParams(params[0]) ||
       validation.checkBinaryLength(waiting, Number(params[0][4]), params[1] || '');
   }

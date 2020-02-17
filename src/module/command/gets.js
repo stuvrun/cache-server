@@ -48,7 +48,7 @@ const command = {
   },
 
   validate: (params) => {
-    return validation.checkArrayLength(params, 2, 2);
+    return validation.checkArrayLength(params, 2, 9999);
   }
 };
 
