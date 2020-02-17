@@ -19,8 +19,7 @@ const command = {
     const request = prevRequest || new Request();
 
     request.cmd = 'replace';
-    request.params[request.lineCount] = request.lineCount === 1 ? dataString.replace(message.newLine, '') : params;
-    request.lineCount += 1;
+    request.setParamsForStorage(params, dataString);
     request.waiting = request.lineCount < command._numberOfLinesToWait;
     request.noreply = validation.checkNotReply(request.params[0], 5);
     request.error = command.validate(request.params, request.waiting);
