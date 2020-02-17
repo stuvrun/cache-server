@@ -35,7 +35,7 @@ class Request extends Abstract {
     this.error = undefined;
   }
 
-  setParamsForStorage (params, dataString) {
+  setParamsForStorage (params, dataString = '') {
     const lines = dataString.split(message.newLine);
 
     if (this.lineCount === 0 && lines.length === 3) {
